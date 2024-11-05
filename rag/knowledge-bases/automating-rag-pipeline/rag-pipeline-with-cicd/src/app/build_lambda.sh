@@ -45,9 +45,9 @@ echo "Copying Python code to temp directory..."
 cp -R "$SRC_DIR"/* "$TMP_DIR/"
 
 # Removed the dependency installation step as it is not required for this Lambda function
-# # Step 3: Install dependencies in the temp folder
-# echo "Installing dependencies..."
-# pip install pypdf -t "$TMP_DIR" --quiet
+# Step 3: Install dependencies in the temp folder
+echo "Installing dependencies..."
+pip install pypdf -t "$TMP_DIR" --quiet
 
 # Step 4: Create the zip package
 echo "Creating Lambda package zip file..."
