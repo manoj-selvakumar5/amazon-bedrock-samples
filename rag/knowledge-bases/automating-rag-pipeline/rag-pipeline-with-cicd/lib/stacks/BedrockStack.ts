@@ -152,11 +152,11 @@ export class BedrockStack extends Stack {
       timeout: Duration.minutes(15), // Set timeout to 15 minutes
       memorySize: 10240, // Allocate 10 GB memory
       // Removed the Pillow layer as it is not required for the custom Lambda function since image processing is not needed
-      // layers: [
-      //   LayerVersion.fromLayerVersionArn(
-      //     this, "PillowLayer", `arn:aws:lambda:${this.region}:770693421928:layer:Klayers-p312-pillow:1`
-      //   ),
-      // ],
+      layers: [
+        LayerVersion.fromLayerVersionArn(
+          this, "PillowLayer", `arn:aws:lambda:${this.region}:770693421928:layer:Klayers-p312-pillow:1`
+        ),
+      ],
     });
 
     return transformationLambda;
