@@ -472,6 +472,7 @@ export class DataIngestionStack extends Stack {
         const stateMachineDefinition = checkForNewFileModificationsTask.next(choiceStateTocheckForNewFileModifications);
 
         const logGroup = new LogGroup(this, 'KBDataIngestionLogGroup', {
+            logGroupName: `/aws/vendedlogs/states/KBDataIngestionLogGroup`,
             retention: RetentionDays.ONE_WEEK,
             removalPolicy: RemovalPolicy.DESTROY,
         });
