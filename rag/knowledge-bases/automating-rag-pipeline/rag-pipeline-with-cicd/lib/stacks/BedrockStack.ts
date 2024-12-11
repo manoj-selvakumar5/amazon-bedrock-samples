@@ -56,6 +56,7 @@ export class BedrockStack extends Stack {
     const foundationModelID = "anthropic.claude-3-sonnet-20240229-v1:0";
 
     // Determine the appropriate S3 bucket name based on the stage (QA or Prod)
+    // TODO: Fix account numbers hardcoding
     let docBucketName = props?.stageName === "QA"
       ? "processed-data-source-bucket-533267284022-qa"
       : "processed-data-source-bucket-533267284022-prod";
