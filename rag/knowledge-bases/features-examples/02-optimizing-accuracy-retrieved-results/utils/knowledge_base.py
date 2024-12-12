@@ -138,6 +138,7 @@ class BedrockKnowledgeBase:
         self.vector_store_name = f'bedrock-sample-rag-{self.suffix}'
         self.index_name = f"bedrock-sample-rag-index-{self.suffix}"
         print("========================================================================================")
+        print("\n Region: ", self.region_name)  
         print(f"Step 1 - Creating or retrieving S3 bucket(s) for Knowledge Base documents")
         self.create_s3_bucket()
         
@@ -320,6 +321,23 @@ class BedrockKnowledgeBase:
             IAM role
         """
         
+        # foundation_model_policy_document = {
+        #     "Version": "2012-10-17",
+        #     "Statement": [
+        #         {
+        #             "Effect": "Allow",
+        #             "Action": [
+        #                 "bedrock:InvokeModel",
+        #             ],
+        #             "Resource": [
+        #                 f"arn:aws:bedrock:{self.region_name}::foundation-model/{self.embedding_model}",
+        #                 f"arn:aws:bedrock:{self.region_name}::foundation-model/{self.generation_model}",
+        #                 f"arn:aws:bedrock:{self.region_name}::foundation-model/{self.reranking_model}"
+        #             ]
+        #         }
+        #     ]
+        # }
+
         foundation_model_policy_document = {
             "Version": "2012-10-17",
             "Statement": [
@@ -333,9 +351,18 @@ class BedrockKnowledgeBase:
                         f"arn:aws:bedrock:{self.region_name}::foundation-model/{self.generation_model}",
                         f"arn:aws:bedrock:{self.region_name}::foundation-model/{self.reranking_model}"
                     ]
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "bedrock:Rerank",
+                    ],
+                    "Resource":  "*"
                 }
             ]
         }
+
+
         if self.chunking_strategy == "CUSTOM":
             s3_policy_document = {
                 "Version": "2012-10-17",
@@ -464,6 +491,8 @@ class BedrockKnowledgeBase:
                 }
             ]
         }
+
+
         try:
             # create policies based on the policy documents
             fm_policy = self.iam_client.create_policy(
